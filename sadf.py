@@ -46,7 +46,17 @@ combined_image.save("combined_image.jpg")
 
 
 #저장된 이미지  c:\New 로 저장하기
+folder_path = "사진이 있는 폴더 경로"
+pattern = "image"  # 새로운 파일 이름 패턴
+count = 1
 
+for filename in os.listdir(folder_path):
+    if filename.endswith(".jpg"):  # .jpg 파일만 대상으로
+        new_filename = f"{pattern}{count}.jpg"
+        file_path = os.path.join(folder_path, filename)
+        new_file_path = os.path.join(folder_path, new_filename)
+        os.rename(file_path, new_file_path)
+        count += 1
 
 
 
