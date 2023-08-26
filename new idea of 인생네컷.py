@@ -199,15 +199,12 @@ message = """<!DOCTYPE html>
                 onclick="alertText(3)"
             >
             </div>
-            <!-- <div id="image4" class="photo-frame"
+            <div id="image4" class="photo-frame"
                 onmouseover="hideText(4)"
                 onmouseout="showText(4)"
                 onclick="alertText(4)"
-            >
-                <span id="desc4" class="photo_description">
-                    코딩 공부 시작한 날
-                </span>
-            </div> -->
+            > 
+            </div>
             <div class="photo-frame">
                 <iframe
                     src=" 여기에 되면 영상도??? "
