@@ -1,0 +1,88 @@
+import pygame
+import random
+
+# 초기화
+pygame.init()
+
+# 화면 설정
+width, height = 800, 600
+screen = pygame.display.set_mode((width, height))
+pygame.display.set_caption("간단한 사격 게임")
+
+# 플레이어 설정
+player_width, player_height = 50, 50
+player_x = width // 2 - player_width // 2
+player_y = height - player_height - 10
+player_speed = 5
+
+# 총알 설정
+bullet_width, bullet_height = 10, 20
+bullet_speed = 10
+bullets = []
+
+# 적 설정
+enemy_width, enemy_height = 50, 50
+enemies = []
+enemy_spawn_delay = 60  # 프레임 단위
+
+# 게임 루프
+running = True
+clock = pygame.time.Clock()
+
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+        
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                bullets.append([player_x + player_width // 2 - bullet_width // 2, player_y])
+
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_LEFT]:
+        player_x -= player_speed
+    if keys[pygame.K_RIGHT]:
+        player_x += player_speed
+
+    # 플레이어 경계 체크
+    if player_x < 0:
+        player_x = 0
+    if player_x > width - player_width:
+        player_x = width - player_width
+
+    # 총알 이동
+    bullets = [[bx, by - bullet_speed] for bx, by in bullets]
+
+    # 총알과 적 충돌 체크
+    for bullet in bullets:
+        for enemy in enemies:
+            if bullet[1] < enemy[1] + enemy_height and \
+               bullet[1] + bullet_height > enemy[1] and \
+               bullet[0] < enemy[0] + enemy_width and \
+               bullet[0] + bullet_width > enemy[0]:
+                enemies.remove(enemy)
+                bullets.remove(bullet)
+
+    # 적 생성
+    if enemy_spawn_delay == 0:
+        enemy_x = random.randint(0, width - enemy_width)
+        enemies.append([enemy_x, 0])
+        enemy_spawn_delay = 60
+    else:
+        enemy_spawn_delay -= 1
+
+    # 적 이동
+    enemies = [[ex, ey + 2] for ex, ey in enemies if ey < height]
+
+    # 화면 업데이트
+    screen.fill((0, 0, 0))
+    pygame.draw.rect(screen, (0, 255, 0), (player_x, player_y, player_width, player_height))
+    for bullet in bullets:
+        pygame.draw.rect(screen, (255, 0, 0), (bullet[0], bullet[1], bullet_width, bullet_height))
+    for enemy in enemies:
+        pygame.draw.rect(screen, (0, 0, 255), (enemy[0], enemy[1], enemy_width, enemy_height))
+    
+    pygame.display.update()
+    clock.tick(60)
+
+pygame.quit()
