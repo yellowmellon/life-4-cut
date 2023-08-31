@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown Page</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f2f2f2;
+            font-family: Arial, sans-serif;
+        }
+
+        #countdown {
+            font-size: 5rem;
+            font-weight: bold;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1></h1>
+    <div id="countdown"></div>
+    <div id="photo"></div>
+
+    <script>
+        // 카운트다운 기능
+        function countdown() {
+            var seconds = 3; // 3초 타이머
+            var countdownElement = document.getElementById("countdown");
+            var photoElement = document.getElementById("photo");
+
+            var countdownInterval = setInterval(function() {
+                countdownElement.innerHTML = seconds;
+                seconds--;
+
+                if (seconds < 0) {
+                    clearInterval(countdownInterval);
+                    countdownElement.innerHTML = "Time's up!";
+                    redirectToLink(); // 링크콜
+                }
+            }, 1000);
+        }
+
+        // 링크 어셉트
+        function redirectToLink() {
+            window.location.href = "./index.html"; // 링크 이동
+        }
+
+        // 카운트 다운 함수
+        window.onload = function() {
+            countdown();
+        };
+    </script>
+</body>
+</html>
