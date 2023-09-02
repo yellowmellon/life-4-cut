@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>웹 카메라 열기</title>
+    <style>
+        /* 전체 페이지를 화면 중앙에 배치 */
+        html, body {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* 요소들을 중앙에 배치 */
+        #camera, #takePhotoButton, #photoContainer {
+            margin: 10px; /* 각 요소 사이에 간격을 주려면 필요한 경우 조정 */
+        }
+
+        /* 카메라 화면 크기 조정 */
+        #camera {
+            width: 80%; /* 원하는 크기로 조정하세요 */
+            max-width: 100%; /* 화면 크기를 넘지 않도록 설정 */
+        }
+
+        /* 미리보기 숨기기 */
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>웹 카메라 열기</h1>
+    <video id="camera" autoplay></video>
+    <button id="takePhotoButton">사진 찍기</button>
+    <div id="photoContainer"></div>
+    <div id="message" class="hidden">4초 후에 미리보기가 사라집니다.</div>
+    <a id="downloadLink" class="hidden" href="#" download="photos.zip">파일 다운로드</a>
+
+    <script>
+        const video = document.getElementById('camera');
+        const takePhotoButton = document.getElementById('takePhotoButton');
+        const photoContainer = document.getElementById('photoContainer');
+        const message = document.getElementById('message');
+        const downloadLink = document.getElementById('downloadLink');
+        let photoCount = 0;
+        let timer;
+
+        async function openCamera() {
+            try {
+                // 가로세로 비율을 16:9로 설정
+                const constraints = {
+                    video: {
+                        width: { ideal: 1280 },
+                        height: { ideal: 720 }
+                    }
+                };
+
+                const stream = await navigator.mediaDevices.getUserMedia(constraints);
+                video.srcObject = stream;
+            } catch (error) {
+                console.error('웹 카메라 열기 실패:', error);
+            }
+        }
+
+        function takePhoto() {
+            if (photoCount < 4) {
+                const canvas = document.createElement('canvas');
+                const context = canvas.getContext('2d');
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+                // 미리보기로 사진 추가
+                const img = document.createElement('img');
+                img.src = canvas.toDataURL('image/jpeg');
+                photoContainer.appendChild(img);
+
+                // 다운로드 링크 추가
+                const downloadLink = document.createElement('a');
+                downloadLink.href = img.src;
+                downloadLink.download = `photo${photoCount + 1}.jpg`;
+                downloadLink.textContent = `사진 ${photoCount + 1} 다운로드`;
+                photoContainer.appendChild(downloadLink);
+
+                photoCount++;
+
+                if (photoCount === 4) {
+                    clearTimeout(timer);
+                    message.textContent = '파일 다운로드';
+                    message.classList.remove('hidden');
+                    downloadLink.classList.remove('hidden');
+                } else {
+                    // 4초 후에 미리보기 제거
+                    timer = setTimeout(() => {
+                        message.classList.add('hidden');
+                        photoContainer.innerHTML = '';
+                    }, 4000);
+                }
+            }
+        }
+
+        takePhotoButton.addEventListener('click', takePhoto);
+        window.onload = openCamera;
+    </script>
+</body>
+</html>
+
+#이건 다운로드 파일에 저장됨 나머지는 나중에
