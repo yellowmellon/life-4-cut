@@ -13,7 +13,7 @@ def delete_images(directory, image_extensions):
             print(f"Deleted: {image_file}")
 
 if __name__ == "__main__":
-    target_directory = "c:\\Users\\kms01\\OneDrive\\바탕 화면\\New"
+    target_directory = "C:\\Users\\kms01\\OneDrive\\바탕 화면\\인생네컷 최종본-1\\New"
     valid_image_extensions = ["jpg", "jpeg", "png", "gif"]
 
     delete_images(target_directory, valid_image_extensions)
@@ -24,22 +24,22 @@ if __name__ == "__main__":
     
 filename = "photo1.jpg"
 src = "c:\\Users\\kms01\\Downloads"
-dst = "c:\\Users\\kms01\\OneDrive\\바탕 화면\\New"
+dst = "C:\\Users\\kms01\\OneDrive\\바탕 화면\\인생네컷 최종본-1\\New"
 
 shutil.move(os.path.join(src, filename), os.path.join(dst, filename))
 filename = "photo2.jpg"
 src = "c:\\Users\\kms01\\Downloads"
-dst = "c:\\Users\\kms01\\OneDrive\\바탕 화면\\New"
+dst = "C:\\Users\\kms01\\OneDrive\\바탕 화면\\인생네컷 최종본-1\\New"
 
 shutil.move(os.path.join(src, filename), os.path.join(dst, filename))
 filename = "photo3.jpg"
 src = "c:\\Users\\kms01\\Downloads"
-dst = "c:\\Users\\kms01\\OneDrive\\바탕 화면\\New"
+dst = "C:\\Users\\kms01\\OneDrive\\바탕 화면\\인생네컷 최종본-1\\New"
 
 shutil.move(os.path.join(src, filename), os.path.join(dst, filename))
 filename = "photo4.jpg"
 src = "c:\\Users\\kms01\\Downloads"
-dst = "c:\\Users\\kms01\\OneDrive\\바탕 화면\\New"
+dst = "C:\\Users\\kms01\\OneDrive\\바탕 화면\\인생네컷 최종본-1\\New"
 
 shutil.move(os.path.join(src, filename), os.path.join(dst, filename))
 
@@ -47,7 +47,7 @@ shutil.move(os.path.join(src, filename), os.path.join(dst, filename))
 
 
 
-folder_path = "c:\\Users\\kms01\\OneDrive\\바탕 화면\\New"
+folder_path = "C:\\Users\\kms01\\OneDrive\\바탕 화면\\인생네컷 최종본-1\\New"
 pattern = "image"  # 새로운 파일 이름 패턴
 count = 1
 
