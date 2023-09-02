@@ -244,6 +244,7 @@ message = """<!DOCTYPE html>
  
 filepath = "hello.html"
 with open(filepath, 'w') as f:
+#with open(filepath, 'w', encoding='utf-8') as f:    -------->글자깨지는거 이걸로 될지 모르겠네
     f.write(message)
     f.close()
  
