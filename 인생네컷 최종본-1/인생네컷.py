@@ -17,8 +17,10 @@ if __name__ == "__main__":
     valid_image_extensions = ["jpg", "jpeg", "png", "gif"]
 
     delete_images(target_directory, valid_image_extensions)
-    
-    
+
+file_path = "hello.html"
+os.remove(file_path)
+
     
     
     
