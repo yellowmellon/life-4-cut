@@ -3,7 +3,20 @@ import os
 import glob
 import shutil
 
+def delete_images(directory, image_extensions):
+    for extension in image_extensions:
+        pattern = os.path.join(directory, f'*.{extension}')
+        image_files = glob.glob(pattern)
+        
+        for image_file in image_files:
+            os.remove(image_file)
+            print(f"Deleted: {image_file}")
 
+if __name__ == "__main__":
+    target_directory = "C:\\Users\\AI_Super_01\\Desktop\\New"
+    valid_image_extensions = ["jpg", "jpeg", "png", "gif"]
+
+    delete_images(target_directory, valid_image_extensions)
 
 folder_path = "C:\\Pic"
 pattern = "image"  # 새로운 파일 이름 패턴
