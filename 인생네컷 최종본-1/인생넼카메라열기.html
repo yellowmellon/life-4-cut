@@ -13,6 +13,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            position: relative; /* 상대 위치 지정 */
         }
 
         /* 요소들을 중앙에 배치 */
@@ -30,6 +31,19 @@
         .hidden {
             display: none;
         }
+
+        /* 숫자 스타일 조정 */
+        #countdown {
+            font-size: 48px; /* 숫자의 크기를 조절합니다. */
+            font-weight: bold;
+            position: absolute; /* 절대 위치 지정 */
+            top: 50%; /* 상단에서 중앙으로 위치 조정 */
+            left: 50%; /* 왼쪽에서 중앙으로 위치 조정 */
+            transform: translate(-50%, -50%); /* 중앙 정렬 */
+            background-color: rgba(255, 255, 255, 0.7); /* 배경색 및 투명도 조절 */
+            padding: 10px 20px; /* 내부 여백 조절 */
+            border-radius: 10px; /* 모서리 둥글게 만듦 */
+        }
     </style>
 </head>
 <body>
@@ -39,6 +53,7 @@
     <div id="photoContainer"></div>
     <div id="message" class="hidden">4초 후에 미리보기가 사라집니다.</div>
     <a id="downloadLink" class="hidden" href="#" download="photos.zip">파일 다운로드</a>
+    <div id="countdown" class="hidden">3</div>
 
     <script>
         const video = document.getElementById('camera');
@@ -46,6 +61,7 @@
         const photoContainer = document.getElementById('photoContainer');
         const message = document.getElementById('message');
         const downloadLink = document.getElementById('downloadLink');
+        const countdownElement = document.getElementById('countdown');
         let photoCount = 0;
         let timer;
 
@@ -64,6 +80,26 @@
             } catch (error) {
                 console.error('웹 카메라 열기 실패:', error);
             }
+        }
+
+        function countdownAndTakePhoto() {
+            let count = 3;
+
+            function countdown() {
+                if (count >= 1) {
+                    countdownElement.textContent = count;
+                    count--;
+                    setTimeout(countdown, 1000);
+                } else {
+                    countdownElement.textContent = '';
+                    countdownElement.classList.add('hidden');
+                    message.textContent = '사진 찍는 중...';
+                    takePhoto();
+                }
+            }
+
+            countdownElement.classList.remove('hidden');
+            countdown();
         }
 
         function takePhoto() {
@@ -103,10 +139,8 @@
             }
         }
 
-        takePhotoButton.addEventListener('click', takePhoto);
+        takePhotoButton.addEventListener('click', countdownAndTakePhoto);
         window.onload = openCamera;
     </script>
 </body>
 </html>
-
-#이건 다운로드 파일에 저장됨 나머지는 나중에
