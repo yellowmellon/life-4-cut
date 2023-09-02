@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>웹 카메라 열기</title>
+</head>
+<body>
+    <h1>웹 카메라 열기</h1>
+    <video id="camera" autoplay></video>
+    <button id="takePhotoButton">사진 찍기</button>
+    <div id="photoContainer"></div>
+
+    <script>
+        const video = document.getElementById('camera');
+        const takePhotoButton = document.getElementById('takePhotoButton');
+        const photoContainer = document.getElementById('photoContainer');
+        let photoCount = 0;
+
+        async function openCamera() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                video.srcObject = stream;
+            } catch (error) {
+                console.error('웹 카메라 열기 실패:', error);
+            }
+        }
+
+        function takePhoto() {
+            if (photoCount < 4) {
+                const canvas = document.createElement('canvas');
+                const context = canvas.getContext('2d');
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+                // 미리보기로 사진 추가
+                const img = document.createElement('img');
+                img.src = canvas.toDataURL('image/jpeg');
+                photoContainer.appendChild(img);
+
+                // 다운로드 링크 추가
+                const downloadLink = document.createElement('a');
+                downloadLink.href = img.src;
+                downloadLink.download = `photo${photoCount + 1}.jpg`;
+                downloadLink.textContent = `사진 ${photoCount + 1} 다운로드`;
+                photoContainer.appendChild(downloadLink);
+
+                photoCount++;
+
+                // 4장의 사진을 찍으면 다른 페이지로 이동
+                if (photoCount === 4) {
+                    window.location.href = '다른페이지.html';
+                }
+            }
+        }
+
+        takePhotoButton.addEventListener('click', takePhoto);
+        window.onload = openCamera;
+    </script>
+</body>
+</html>
+#이건 다운로드 파일에 저장됨 나며지는 나중에
