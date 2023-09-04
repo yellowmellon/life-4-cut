@@ -328,7 +328,3 @@ with open(filepath, 'w', encoding='utf-8') as f:
     f.close()
  
 webbrowser.open_new_tab(filepath)
-
-    f.close()
- 
-webbrowser.open_new_tab(filepath)
