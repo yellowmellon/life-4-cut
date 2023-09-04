@@ -4,62 +4,73 @@ import glob
 import shutil
 
 def delete_images(directory, image_extensions):
+    if not os.path.exists(directory):
+        print(f"The directory '{directory}' does not exist. Skipping image deletion.")
+        return
+
     for extension in image_extensions:
         pattern = os.path.join(directory, f'*.{extension}')
         image_files = glob.glob(pattern)
         
+        if not image_files:
+            print(f"No {extension} files found in '{directory}'. Skipping image deletion.")
+            continue
+
         for image_file in image_files:
             os.remove(image_file)
             print(f"Deleted: {image_file}")
 
 if __name__ == "__main__":
-    target_directory = "C:\\Users\\kms01\\OneDrive\\바탕 화면\\인생네컷 최종본-1\\New"
+    target_directory = "c:\\Users\\AI_Super_01\\Desktop\\New"
     valid_image_extensions = ["jpg", "jpeg", "png", "gif"]
 
     delete_images(target_directory, valid_image_extensions)
 
-file_path = "hello.html"
-os.remove(file_path)
-
+file_path = "hello.html"   
+if os.path.exists(file_path):
+    os.remove(file_path)
+    print(f'{file_path} 파일이 삭제되었습니다.')
+else:
+    print(f'{file_path} 파일이 존재하지 않습니다. 삭제 작업을 스킵합니다.')
     
-    
-    
-filename = "photo1.jpg"
-src = "c:\\Users\\kms01\\Downloads"
-dst = "C:\\Users\\kms01\\OneDrive\\바탕 화면\\인생네컷 최종본-1\\New"
 
-shutil.move(os.path.join(src, filename), os.path.join(dst, filename))
-filename = "photo2.jpg"
-src = "c:\\Users\\kms01\\Downloads"
-dst = "C:\\Users\\kms01\\OneDrive\\바탕 화면\\인생네컷 최종본-1\\New"
+def move_image(src_directory, dst_directory, filename):
+    src_path = os.path.join(src_directory, filename)
+    dst_path = os.path.join(dst_directory, filename)
 
-shutil.move(os.path.join(src, filename), os.path.join(dst, filename))
-filename = "photo3.jpg"
-src = "c:\\Users\\kms01\\Downloads"
-dst = "C:\\Users\\kms01\\OneDrive\\바탕 화면\\인생네컷 최종본-1\\New"
+    if os.path.exists(src_path):
+        shutil.move(src_path, dst_path)
+        print(f"Moved: {src_path} to {dst_path}")
+    else:
+        print(f"File not found: {src_path}. Skipping move operation.")
 
-shutil.move(os.path.join(src, filename), os.path.join(dst, filename))
-filename = "photo4.jpg"
-src = "c:\\Users\\kms01\\Downloads"
-dst = "C:\\Users\\kms01\\OneDrive\\바탕 화면\\인생네컷 최종본-1\\New"
+if __name__ == "__main__":
+    src_directory = "c:\\Users\\AI_Super_01\\Downloads"
+    dst_directory = "c:\\Users\\AI_Super_01\\Desktop\\New"
 
-shutil.move(os.path.join(src, filename), os.path.join(dst, filename))
+    filenames = ["photo1.jpg", "photo2.jpg", "photo3.jpg", "photo4.jpg"]
+
+    for filename in filenames:
+        move_image(src_directory, dst_directory, filename)
 
 
 
 
-
-folder_path = "C:\\Users\\kms01\\OneDrive\\바탕 화면\\인생네컷 최종본-1\\New"
+folder_path = "c:\\Users\\AI_Super_01\\Desktop\\New"
 pattern = "image"  # 새로운 파일 이름 패턴
 count = 1
 
-for filename in os.listdir(folder_path):
-    if filename.endswith(".jpg"):  # .jpg 파일만 대상으로
-        new_filename = f"{pattern}{count}.jpg"
-        file_path = os.path.join(folder_path, filename)
-        new_file_path = os.path.join(folder_path, new_filename)
-        os.rename(file_path, new_file_path)
-        count += 1
+# 폴더 내에 .jpg 파일이 있는지 확인
+if any(filename.endswith(".jpg") for filename in os.listdir(folder_path)):
+    for filename in os.listdir(folder_path):
+        if filename.endswith(".jpg"):
+            new_filename = f"{pattern}{count}.jpg"
+            file_path = os.path.join(folder_path, filename)
+            new_file_path = os.path.join(folder_path, new_filename)
+            os.rename(file_path, new_file_path)
+            count += 1
+else:
+    print("이미지 파일이 폴더 내에 없습니다. 넘어갑니다.")
 
 
 
@@ -245,9 +256,12 @@ message = """<!DOCTYPE html>
 </html>"""
  
 filepath = "hello.html"
-with open(filepath, 'w') as f:
-#with open(filepath, 'w', encoding='utf-8') as f:    -------->글자깨지는거 이걸로 될지 모르겠네
+with open(filepath, 'w', encoding='utf-8') as f:
     f.write(message)
+    f.close()
+ 
+webbrowser.open_new_tab(filepath)
+
     f.close()
  
 webbrowser.open_new_tab(filepath)
