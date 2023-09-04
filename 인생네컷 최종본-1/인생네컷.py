@@ -85,7 +85,6 @@ message = """<!DOCTYPE html>
 
         /* body태그 자체에 css 요소 부여 */
         body {
-            font-family: "LeeSeoyun";
             margin: 0;
             display: flex;
             justify-content: center;
@@ -119,13 +118,18 @@ message = """<!DOCTYPE html>
         }
 
         .f-title {
-            color: white;
-            font-size: 25px;
-            font-weight: 900;
+        color: black;
+        font-size: 48px;
+        font-weight: 900;
+        font-family: "sans-serif";
+        background-color: rgba(255, 255, 255, 0.7); /* 흰 반투명 마진 추가 */
+        padding: 5px; /* 원하는 크기로 조정하세요 */
+        border-radius: 10px; /* 모서리 둥글게 만들기 */
+        margin: 10px 0; /* 위아래 마진 추가 */
         }
 
         .f-date {
-            color: white;
+            color: rgb(123, 116, 128);
             font-size: 15px;
             font-weight: 500;
         }
@@ -164,11 +168,6 @@ message = """<!DOCTYPE html>
             opacity: 0;
         }
 
-        .video {
-            width: 100%;
-            height: 100%;
-        }
-
         .showText {
             opacity: 0;
         }
@@ -182,6 +181,7 @@ message = """<!DOCTYPE html>
         .selected-image {
             border: 2px solid red;
         }
+
     </style>
     <script>
         // 이미지 변경을 위한 함수
