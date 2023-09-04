@@ -94,7 +94,6 @@ message = """<!DOCTYPE html>
 
         .container {
             width: 390px;
-            background-color: #ff9d73;
             height: 100%;
         }
 
@@ -178,8 +177,59 @@ message = """<!DOCTYPE html>
             opacity: 1;
             transition: opacity 0.5s linear;
         }
+
+        /* 이미지 변경을 위한 클래스 추가 */
+        .selected-image {
+            border: 2px solid red;
+        }
     </style>
     <script>
+        // 이미지 변경을 위한 함수
+        function changeImage(number) {
+            const container = document.querySelector(".container");
+            const imagePaths = [
+                "./New/image1.jpg",
+                "./New/image2.jpg",
+                "./New/image3.jpg",
+                "./New/image4.jpg"
+            ];
+
+            // 무작위 이미지 선택 (16개 이미지 중 하나)
+            const randomImagePath = [
+            "./Pic/1.png",
+            "./Pic/2.png",
+            "./Pic/3.png",
+            "./Pic/4.png",
+            "./Pic/5.png",
+            "./Pic/6.png",
+            "./Pic/7.png",
+            "./Pic/8.png",
+            "./Pic/9.png",
+            "./Pic/10.png",
+            "./Pic/11.png",
+            "./Pic/12.png"
+            ][Math.floor(Math.random() * 12)];
+
+            // 선택한 이미지를 배경으로 설정
+            container.style.backgroundImage = `url('${randomImagePath}')`;
+
+            // 선택한 이미지에 선택 효과 추가
+            document.querySelectorAll(".photo-frame").forEach((frame, index) => {
+                if (index + 1 === number) {
+                    frame.classList.add("selected-image");
+                } else {
+                    frame.classList.remove("selected-image");
+                }
+            });
+        }
+
+        // 클릭 이벤트 처리 함수 (이미지 변경 및 경고창)
+        function handleClick(number) {
+            alertText(number);
+            changeImage(number);
+        }
+
+        // 텍스트가 보여지는 기능, 감춰지는 기능 함수는 유지
         // 텍스트가 보여지는 기능
         // 1. 몇 번째 사진에 마우스가 올라갔는지 확인(if문)
         // 2. 해당 사진을 찾아 hideText class를 지워주고, showText는 삽입해줌
@@ -215,7 +265,23 @@ message = """<!DOCTYPE html>
         // 클릭 기능
         // 1. 선택된 사진의 숫자를 가진 텍스트를 alert 형태로 출력해줌
         function alertText(number) {
-            alert(`${number}번째 추억이에요! `);
+            alert(`${number}번째 랜덤 사진!!`);
+        }
+        // 클릭 이벤트 처리 함수 (이미지 변경 및 경고창)
+        function handleClick(number) {
+            alertText(number);
+            changeImage(number);
+            // 0.3초 후에 선택 효과를 제거하는 함수 호출
+            setTimeout(() => {
+                removeSelectedImage();
+            }, 300);
+        }
+
+        // 선택 효과를 제거하는 함수
+        function removeSelectedImage() {
+            document.querySelectorAll(".photo-frame").forEach((frame) => {
+                frame.classList.remove("selected-image");
+            });
         }
     </script>
 </head>
@@ -225,25 +291,25 @@ message = """<!DOCTYPE html>
             <div id="image1" class="photo-frame"
                 onmouseover="hideText(1)"
                 onmouseout="showText(1)"
-                onclick="alertText(1)"
+                onclick="handleClick(1)"
             >
             </div>
             <div id="image2" class="photo-frame"
                 onmouseover="hideText(2)"
                 onmouseout="showText(2)"
-                onclick="alertText(2)"
+                onclick="handleClick(2)"
             >
             </div>
             <div id="image3" class="photo-frame"
                 onmouseover="hideText(3)"
                 onmouseout="showText(3)"
-                onclick="alertText(3)"
+                onclick="handleClick(3)"
             >
             </div>
             <div id="image4" class="photo-frame"
                 onmouseover="hideText(4)"
                 onmouseout="showText(4)"
-                onclick="alertText(4)"
+                onclick="handleClick(4)"
             > 
             </div>
         </div>
@@ -253,7 +319,8 @@ message = """<!DOCTYPE html>
         </div>
     </div>
 </body>
-</html>"""
+</html>
+"""
  
 filepath = "hello.html"
 with open(filepath, 'w', encoding='utf-8') as f:
