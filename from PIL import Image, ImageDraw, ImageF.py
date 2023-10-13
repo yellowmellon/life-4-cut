@@ -3,9 +3,54 @@ from PIL import Image, ImageDraw, ImageFont
 import win32print
 import win32ui
 import win32con
+import os
+import glob
+
+#사진 찍은거 저장할때 처음부터 New파일에 저장함 ㅇㅋㅇㅋ
 
 # 이미지 생성 함수
 def create_image():
+    #여기서는 이전에 만들어졌던 output.jpg를 삭제함(output폴더)
+    def delete_images(directory, image_extensions):
+        if not os.path.exists(directory):
+            print(f"The directory '{directory}' does not exist. Skipping image deletion.")
+            return
+
+        for extension in image_extensions:
+            pattern = os.path.join(directory, f'*.{extension}')
+            image_files = glob.glob(pattern)
+
+            if not image_files:
+                print(f"No {extension} files found in '{directory}'. Skipping image deletion.")
+                continue
+
+            for image_file in image_files:
+                os.remove(image_file)
+                print(f"Deleted: {image_file}")
+
+    if __name__ == "__main__":
+        target_directory = "C:\\Users\\kms01\\OneDrive\\바탕 화면\\output"
+        valid_image_extensions = ["jpg", "jpeg", "png", "gif"]
+
+        delete_images(target_directory, valid_image_extensions)
+    
+    #여기서는 폴더 내의 사진 이름 바꾸기
+    folder_path = "C:\\Users\\kms01\\OneDrive\\바탕 화면\\New"
+    pattern = "image"  # 새로운 파일 이름 패턴
+    count = 1
+
+    # 폴더 내에 .jpg 파일이 있는지 확인
+    if any(filename.endswith(".jpg") for filename in os.listdir(folder_path)):
+        for filename in os.listdir(folder_path):
+            if filename.endswith(".jpg"):
+                new_filename = f"{pattern}{count}.jpg"
+                file_path = os.path.join(folder_path, filename)
+                new_file_path = os.path.join(folder_path, new_filename)
+                os.rename(file_path, new_file_path)
+                count += 1
+    else:
+        print("이미지 파일이 폴더 내에 없습니다. 넘어갑니다.")
+        
     # 원하는 인치 단위 크기 설정
     width_inch = 4
     height_inch = 6
@@ -26,19 +71,15 @@ def create_image():
     new_image = Image.new('RGB', (width_px, height_px))
 
     # 이미지를 로드하고 크기 조정
-    image1 = Image.open("222.jpg")
-    image2 = Image.open("333.jpg")
-    image3 = Image.open("444.jpg")
-    image4 = Image.open("555.jpg")
+    image1 = Image.open("C:\\Users\\kms01\\OneDrive\\바탕 화면\\New\\image1.jpg")
+    image2 = Image.open("C:\\Users\\kms01\\OneDrive\\바탕 화면\\New\\image2.jpg")
+    image3 = Image.open("C:\\Users\\kms01\\OneDrive\\바탕 화면\\New\\image3.jpg")
+    image4 = Image.open("C:\\Users\\kms01\\OneDrive\\바탕 화면\\New\\image4.jpg")
 
     image1 = image1.resize((image_width_px, image_height_px), Image.ANTIALIAS)
     image2 = image2.resize((image_width_px, image_height_px), Image.ANTIALIAS)
     image3 = image3.resize((image_width_px, image_height_px), Image.ANTIALIAS)
     image4 = image4.resize((image_width_px, image_height_px), Image.ANTIALIAS)
-
-    # 원하는 가로, 세로 개수 설정
-    columns = 2
-    rows = 2
 
     # 이미지를 삽입
     new_image.paste(image1, (int(dpi * 0.1), int(dpi * 0.1)))
@@ -58,8 +99,41 @@ def create_image():
     text_position = ((padding + image_width_px) * 0.5, height_px - padding - int(dpi * 0.5))  # 텍스트 위치 설정
     draw.text(text_position, text, fill=text_color, font=font)
 
-    # 결과 이미지 저장
-    new_image.save("output.jpg", dpi=(dpi, dpi))
+    # 결과 이미지 저장(output폴더에 저장)
+    output_folder = "C:\\Users\\kms01\\OneDrive\\바탕 화면\\output"
+    output_filename = "output.jpg"
+    output_path = os.path.join(output_folder, output_filename)
+    new_image.save(output_path, dpi=(dpi, dpi))
+    
+    #처음 4장을 지움(New폴더)
+    def delete_images(directory, image_extensions):
+        if not os.path.exists(directory):
+            print(f"The directory '{directory}' does not exist. Skipping image deletion.")
+            return
+
+        for extension in image_extensions:
+            pattern = os.path.join(directory, f'*.{extension}')
+            image_files = glob.glob(pattern)
+
+            if not image_files:
+                print(f"No {extension} files found in '{directory}'. Skipping image deletion.")
+                continue
+
+            for image_file in image_files:
+                os.remove(image_file)
+                print(f"Deleted: {image_file}")
+
+    if __name__ == "__main__":
+        target_directory = "C:\\Users\\kms01\\OneDrive\\바탕 화면\\New"
+        valid_image_extensions = ["jpg", "jpeg", "png", "gif"]
+
+        delete_images(target_directory, valid_image_extensions)
+    
+    #이제 찬우가 위에서 저장한 (output 파일에 있는)output.jpg를 googl drive로 옮기고 
+    
+    #찬우의 코드
+    #찬우의 코드
+    #찬우의 코드
 
 # 이미지 인쇄 함수
 def print_image():
